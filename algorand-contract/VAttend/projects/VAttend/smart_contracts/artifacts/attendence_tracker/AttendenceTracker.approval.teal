@@ -1,0 +1,257 @@
+#pragma version 11
+#pragma typetrack false
+
+// @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
+main:
+    intcblock 0 1 8
+    bytecblock "instructor" "attendance_count" "event_active" "start_time" "end_time" "attendance_hash"
+    // smart_contracts/attendence_tracker/contract.algo.ts:12
+    // export class AttendenceTracker extends Contract {
+    txn NumAppArgs
+    bz main___algots__.defaultCreate@10
+    txn OnCompletion
+    !
+    assert // OnCompletion must be NoOp
+    txn ApplicationID
+    assert
+    pushbytess 0x0b35099e 0x89eee3ec 0x2fab4c06 // method "create_event(uint64,uint64)void", method "close_event()void", method "check_in(byte[])void"
+    txna ApplicationArgs 0
+    match create_event close_event check_in
+    err
+
+main___algots__.defaultCreate@10:
+    // smart_contracts/attendence_tracker/contract.algo.ts:12
+    // export class AttendenceTracker extends Contract {
+    txn OnCompletion
+    !
+    txn ApplicationID
+    !
+    &&
+    assert // OnCompletion must be NoOp && can only call when creating
+    intc_1 // 1
+    return
+
+
+// smart_contracts/attendence_tracker/contract.algo.ts::AttendenceTracker.create_event[routing]() -> void:
+create_event:
+    // smart_contracts/attendence_tracker/contract.algo.ts:26
+    // create_event(start: uint64, end: uint64): void {
+    txna ApplicationArgs 1
+    dup
+    len
+    intc_2 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    btoi
+    txna ApplicationArgs 2
+    dup
+    len
+    intc_2 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    btoi
+    // smart_contracts/attendence_tracker/contract.algo.ts:28
+    // if (!this.instructor.hasValue) {
+    intc_0 // 0
+    // smart_contracts/attendence_tracker/contract.algo.ts:15
+    // instructor = GlobalState<Account>({ key: 'instructor' })
+    bytec_0 // "instructor"
+    // smart_contracts/attendence_tracker/contract.algo.ts:28
+    // if (!this.instructor.hasValue) {
+    app_global_get_ex
+    bury 1
+    bnz create_event_after_if_else@3
+    // smart_contracts/attendence_tracker/contract.algo.ts:15
+    // instructor = GlobalState<Account>({ key: 'instructor' })
+    bytec_0 // "instructor"
+    // smart_contracts/attendence_tracker/contract.algo.ts:29
+    // this.instructor.value = Txn.sender
+    txn Sender
+    app_global_put
+
+create_event_after_if_else@3:
+    // smart_contracts/attendence_tracker/contract.algo.ts:32
+    // assert(Txn.sender === this.instructor.value)
+    txn Sender
+    intc_0 // 0
+    // smart_contracts/attendence_tracker/contract.algo.ts:15
+    // instructor = GlobalState<Account>({ key: 'instructor' })
+    bytec_0 // "instructor"
+    // smart_contracts/attendence_tracker/contract.algo.ts:32
+    // assert(Txn.sender === this.instructor.value)
+    app_global_get_ex
+    assert // check GlobalState exists
+    ==
+    assert
+    // smart_contracts/attendence_tracker/contract.algo.ts:16
+    // startTime = GlobalState<uint64>({ key: 'start_time' })
+    bytec_3 // "start_time"
+    // smart_contracts/attendence_tracker/contract.algo.ts:34
+    // this.startTime.value = start
+    dig 2
+    app_global_put
+    // smart_contracts/attendence_tracker/contract.algo.ts:17
+    // endTime = GlobalState<uint64>({ key: 'end_time' })
+    bytec 4 // "end_time"
+    // smart_contracts/attendence_tracker/contract.algo.ts:35
+    // this.endTime.value = end
+    dig 1
+    app_global_put
+    // smart_contracts/attendence_tracker/contract.algo.ts:18
+    // attendanceCount = GlobalState<uint64>({ key: 'attendance_count' })
+    bytec_1 // "attendance_count"
+    // smart_contracts/attendence_tracker/contract.algo.ts:37
+    // this.attendanceCount.value = 0
+    intc_0 // 0
+    app_global_put
+    // smart_contracts/attendence_tracker/contract.algo.ts:19
+    // eventActive = GlobalState<uint64>({ key: 'event_active' }) // 1 = open, 0 = closed
+    bytec_2 // "event_active"
+    // smart_contracts/attendence_tracker/contract.algo.ts:38
+    // this.eventActive.value = 1
+    intc_1 // 1
+    app_global_put
+    // smart_contracts/attendence_tracker/contract.algo.ts:26
+    // create_event(start: uint64, end: uint64): void {
+    intc_1 // 1
+    return
+
+
+// smart_contracts/attendence_tracker/contract.algo.ts::AttendenceTracker.close_event[routing]() -> void:
+close_event:
+    // smart_contracts/attendence_tracker/contract.algo.ts:43
+    // assert(Txn.sender === this.instructor.value)
+    txn Sender
+    intc_0 // 0
+    // smart_contracts/attendence_tracker/contract.algo.ts:15
+    // instructor = GlobalState<Account>({ key: 'instructor' })
+    bytec_0 // "instructor"
+    // smart_contracts/attendence_tracker/contract.algo.ts:43
+    // assert(Txn.sender === this.instructor.value)
+    app_global_get_ex
+    assert // check GlobalState exists
+    ==
+    assert
+    // smart_contracts/attendence_tracker/contract.algo.ts:19
+    // eventActive = GlobalState<uint64>({ key: 'event_active' }) // 1 = open, 0 = closed
+    bytec_2 // "event_active"
+    // smart_contracts/attendence_tracker/contract.algo.ts:44
+    // this.eventActive.value = 0
+    intc_0 // 0
+    app_global_put
+    // smart_contracts/attendence_tracker/contract.algo.ts:42
+    // close_event(): void {
+    intc_1 // 1
+    return
+
+
+// smart_contracts/attendence_tracker/contract.algo.ts::AttendenceTracker.check_in[routing]() -> void:
+check_in:
+    // smart_contracts/attendence_tracker/contract.algo.ts:48
+    // check_in(hash: bytes): void {
+    txna ApplicationArgs 1
+    dup
+    intc_0 // 0
+    extract_uint16 // on error: invalid array length header
+    pushint 2 // 2
+    +
+    dig 1
+    len
+    ==
+    assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
+    extract 2 0
+    // smart_contracts/attendence_tracker/contract.algo.ts:51
+    // assert(this.eventActive.value === 1)
+    intc_0 // 0
+    // smart_contracts/attendence_tracker/contract.algo.ts:19
+    // eventActive = GlobalState<uint64>({ key: 'event_active' }) // 1 = open, 0 = closed
+    bytec_2 // "event_active"
+    // smart_contracts/attendence_tracker/contract.algo.ts:51
+    // assert(this.eventActive.value === 1)
+    app_global_get_ex
+    assert // check GlobalState exists
+    intc_1 // 1
+    ==
+    assert
+    // smart_contracts/attendence_tracker/contract.algo.ts:53
+    // assert(Txn.firstValid >= this.startTime.value)
+    txn FirstValid
+    intc_0 // 0
+    // smart_contracts/attendence_tracker/contract.algo.ts:16
+    // startTime = GlobalState<uint64>({ key: 'start_time' })
+    bytec_3 // "start_time"
+    // smart_contracts/attendence_tracker/contract.algo.ts:53
+    // assert(Txn.firstValid >= this.startTime.value)
+    app_global_get_ex
+    assert // check GlobalState exists
+    >=
+    assert
+    // smart_contracts/attendence_tracker/contract.algo.ts:54
+    // assert(Txn.firstValid <= this.endTime.value)
+    txn FirstValid
+    intc_0 // 0
+    // smart_contracts/attendence_tracker/contract.algo.ts:17
+    // endTime = GlobalState<uint64>({ key: 'end_time' })
+    bytec 4 // "end_time"
+    // smart_contracts/attendence_tracker/contract.algo.ts:54
+    // assert(Txn.firstValid <= this.endTime.value)
+    app_global_get_ex
+    assert // check GlobalState exists
+    <=
+    assert
+    // smart_contracts/attendence_tracker/contract.algo.ts:56
+    // assert(!this.attendanceHash(Txn.sender).hasValue)
+    txn Sender
+    intc_0 // 0
+    // smart_contracts/attendence_tracker/contract.algo.ts:22
+    // attendanceHash = LocalState<bytes>({ key: 'attendance_hash' })
+    bytec 5 // "attendance_hash"
+    // smart_contracts/attendence_tracker/contract.algo.ts:56
+    // assert(!this.attendanceHash(Txn.sender).hasValue)
+    app_local_get_ex
+    bury 1
+    !
+    assert
+    // smart_contracts/attendence_tracker/contract.algo.ts:58
+    // this.attendanceHash(Txn.sender).value = hash
+    txn Sender
+    // smart_contracts/attendence_tracker/contract.algo.ts:22
+    // attendanceHash = LocalState<bytes>({ key: 'attendance_hash' })
+    bytec 5 // "attendance_hash"
+    // smart_contracts/attendence_tracker/contract.algo.ts:58
+    // this.attendanceHash(Txn.sender).value = hash
+    uncover 2
+    app_local_put
+    // smart_contracts/attendence_tracker/contract.algo.ts:59
+    // this.checkinTimestamp(Txn.sender).value = Txn.firstValid
+    txn Sender
+    // smart_contracts/attendence_tracker/contract.algo.ts:23
+    // checkinTimestamp = LocalState<uint64>({ key: 'timestamp' })
+    pushbytes "timestamp"
+    // smart_contracts/attendence_tracker/contract.algo.ts:59
+    // this.checkinTimestamp(Txn.sender).value = Txn.firstValid
+    txn FirstValid
+    app_local_put
+    // smart_contracts/attendence_tracker/contract.algo.ts:61
+    // this.attendanceCount.value = this.attendanceCount.value + 1
+    intc_0 // 0
+    // smart_contracts/attendence_tracker/contract.algo.ts:18
+    // attendanceCount = GlobalState<uint64>({ key: 'attendance_count' })
+    bytec_1 // "attendance_count"
+    // smart_contracts/attendence_tracker/contract.algo.ts:61
+    // this.attendanceCount.value = this.attendanceCount.value + 1
+    app_global_get_ex
+    assert // check GlobalState exists
+    intc_1 // 1
+    +
+    // smart_contracts/attendence_tracker/contract.algo.ts:18
+    // attendanceCount = GlobalState<uint64>({ key: 'attendance_count' })
+    bytec_1 // "attendance_count"
+    // smart_contracts/attendence_tracker/contract.algo.ts:61
+    // this.attendanceCount.value = this.attendanceCount.value + 1
+    swap
+    app_global_put
+    // smart_contracts/attendence_tracker/contract.algo.ts:48
+    // check_in(hash: bytes): void {
+    intc_1 // 1
+    return
