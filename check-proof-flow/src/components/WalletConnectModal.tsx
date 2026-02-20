@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, Loader2 } from "lucide-react";
-import { connectWallet } from "@/lib/store";
 import { useToast } from "@/hooks/use-toast";
+import { PeraWalletConnect } from "@perawallet/connect";
+import type { Transaction } from "algosdk";
 
 const walletOptions = [
   { name: "Pera Wallet", badge: "Most Popular", color: "#FFEE55" },
-  { name: "Defly Wallet", badge: null, color: "#00D1FF" },
-  { name: "Kibisis", badge: null, color: "#BF5AF2" },
-  { name: "WalletConnect", badge: null, color: "#3396FF" },
 ];
 
 interface Props {
@@ -17,24 +15,39 @@ interface Props {
   onConnected: (addr: string) => void;
 }
 
+const peraWallet = new PeraWalletConnect();
+
 export default function WalletConnectModal({ open, onClose, onConnected }: Props) {
   const [connecting, setConnecting] = useState<string | null>(null);
   const [connected, setConnected] = useState(false);
   const { toast } = useToast();
 
-  const handleSelect = (name: string) => {
-    setConnecting(name);
-    setTimeout(() => {
-      const addr = connectWallet();
-      setConnected(true);
-      toast({ title: "Wallet Connected! ✅", description: `Connected: ${addr}` });
-      setTimeout(() => {
-        onConnected(addr);
-        setConnecting(null);
-        setConnected(false);
-      }, 1200);
-    }, 1500);
-  };
+  const handleSelect = async () => {
+  try {
+    const accounts = await peraWallet.connect();
+    const addr = accounts[0];
+
+    // ✅ create signer using SAME wallet session
+    const peraSigner = async (txns: Transaction[], indexes: number[]) => {
+      const txnsToSign = txns.map((txn, i) => ({
+        txn,
+        signers: indexes.includes(i) ? [addr] : [],
+      }));
+
+      const signed = await peraWallet.signTransaction([
+        txnsToSign,
+      ]);
+
+      return signed[0]; // raw Uint8Array[]
+    };
+
+    // 🔥 VERY IMPORTANT
+    onConnected(addr, peraSigner);
+
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   if (!open) return null;
 

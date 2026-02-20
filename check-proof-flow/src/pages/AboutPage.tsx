@@ -29,7 +29,7 @@ const privacyFaq = [
   { q: "Who can see what data?", a: "Only you can link your proof hash to your identity. Instructors see anonymous proofs. No personal data is ever stored on-chain." },
 ];
 
-const contractCode = `# AttendX Smart Contract (PyTEAL)
+const contractCode = `# VAttend Smart Contract (PyTEAL)
 from pyteal import *
 
 def approval_program():
@@ -58,7 +58,7 @@ export default function AboutPage() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
-          <h1 className="text-4xl sm:text-5xl font-display font-bold mb-4">How <span className="gradient-text">AttendX</span> Works</h1>
+          <h1 className="text-4xl sm:text-5xl font-display font-bold mb-4">How <span className="gradient-text">VAttend</span> Works</h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             A step-by-step breakdown of privacy-preserving attendance verification on the Algorand blockchain.
           </p>
@@ -156,12 +156,12 @@ export default function AboutPage() {
           <h2 className="font-display font-bold text-2xl mb-4">📋 Project README</h2>
           <div className="space-y-4 text-sm text-muted-foreground">
             <div>
-              <h4 className="font-heading font-bold text-foreground">AttendX — Privacy-Preserving Attendance Tracker</h4>
+              <h4 className="font-heading font-bold text-foreground">VAttend — Privacy-Preserving Attendance Tracker</h4>
               <p>Built for the RIFT 2026 Hackathon on the Algorand blockchain.</p>
             </div>
             <div>
               <h4 className="font-heading font-bold text-foreground">Problem Statement</h4>
-              <p>Traditional attendance systems expose student identity and are vulnerable to fraud. AttendX uses zero-knowledge-inspired hashing and on-chain verification to solve both problems.</p>
+              <p>Traditional attendance systems expose student identity and are vulnerable to fraud. VAttend uses zero-knowledge-inspired hashing and on-chain verification to solve both problems.</p>
             </div>
             <div>
               <h4 className="font-heading font-bold text-foreground">App ID (Testnet)</h4>
@@ -169,14 +169,14 @@ export default function AboutPage() {
             </div>
             <div>
               <h4 className="font-heading font-bold text-foreground">Team</h4>
-              <p>Built with ❤️ by the AttendX Team</p>
+              <p>Built with ❤️ by the VAttend Team</p>
             </div>
           </div>
         </motion.div>
 
         <div className="text-center">
           <Link to="/check-in">
-            <Button size="lg" className="btn-primary-glow rounded-full h-14 text-lg px-8">Try AttendX Now</Button>
+            <Button size="lg" className="btn-primary-glow rounded-full h-14 text-lg px-8">Try VAttend Now</Button>
           </Link>
         </div>
       </div>

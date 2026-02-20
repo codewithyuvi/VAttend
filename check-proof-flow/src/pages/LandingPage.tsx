@@ -39,10 +39,10 @@ const bentoFeatures = [
 ];
 
 const testimonials = [
-  { name: "Alex Rivera", role: "CS Student", institution: "MIT", text: "AttendX made attendance effortless. I love that my privacy is protected.", stars: 5, initials: "AR" },
+  { name: "Alex Rivera", role: "CS Student", institution: "MIT", text: "VAttend made attendance effortless. I love that my privacy is protected.", stars: 5, initials: "AR" },
   { name: "Prof. Chen", role: "Instructor", institution: "Stanford", text: "No more fake attendance. The analytics dashboard is incredibly useful.", stars: 5, initials: "PC" },
   { name: "Jordan Lee", role: "Engineering Student", institution: "Berkeley", text: "The blockchain verification gives me confidence that my records are permanent.", stars: 5, initials: "JL" },
-  { name: "Dr. Patel", role: "Department Head", institution: "Georgia Tech", text: "We deployed AttendX across 15 courses. The results have been outstanding.", stars: 5, initials: "DP" },
+  { name: "Dr. Patel", role: "Department Head", institution: "Georgia Tech", text: "We deployed VAttend across 15 courses. The results have been outstanding.", stars: 5, initials: "DP" },
 ];
 
 function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
@@ -128,7 +128,7 @@ export default function LandingPage() {
             </motion.span>
 
             <h1 className="text-5xl sm:text-7xl lg:text-8xl font-display font-bold leading-[0.95] mb-6">
-              <span className="block">AttendX</span>
+              <span className="block">VAttend</span>
             </h1>
 
             <div className="text-2xl sm:text-4xl lg:text-5xl font-display font-bold mb-8 h-14 sm:h-16">
@@ -232,7 +232,7 @@ export default function LandingPage() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-5xl font-display font-bold mb-4">Why <span className="gradient-text-warm">AttendX</span></h2>
+          <h2 className="text-3xl sm:text-5xl font-display font-bold mb-4">Why <span className="gradient-text-warm">VAttend</span></h2>
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 auto-rows-[180px]">
@@ -331,7 +331,7 @@ export default function LandingPage() {
             <div className="w-6 h-6 rounded flex items-center justify-center font-display text-[10px] font-bold" style={{ background: 'linear-gradient(135deg, #00FFD1, #BF5AF2)' }}>
               <span className="text-black">AX</span>
             </div>
-            <span className="font-display font-bold text-foreground">AttendX</span>
+            <span className="font-display font-bold text-foreground">VAttend</span>
           </div>
           <span>Built with ❤️ for RIFT 2026 · Algorand Testnet</span>
           <div className="flex items-center gap-2 font-mono text-xs">

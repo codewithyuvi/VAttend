@@ -37,7 +37,7 @@ export default function ExplorerPage() {
       <div className="max-w-5xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
           <h1 className="text-3xl font-display font-bold mb-2">Testnet Explorer</h1>
-          <p className="text-muted-foreground">Live view of AttendX transactions on Algorand Testnet</p>
+          <p className="text-muted-foreground">Live view of VAttend transactions on Algorand Testnet</p>
         </motion.div>
 
         {/* Block counter */}
